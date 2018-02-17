@@ -1,0 +1,42 @@
+<!-- 展示ztree效果 :发送ajax请求获取简单json数据构造ztree-->
+<ul id="ztree3" class="ztree"></ul>
+<script type="text/javascript">
+    $(function () {
+        //页面加载完成后，执行这段代码----动态创建ztree
+        var setting3 = {
+            data: {
+                simpleData: {
+                    enable: true//使用简单json数据构造ztree节点
+                }
+            },
+            callback: {
+                //为ztree节点绑定单击事件
+                onClick: function (event, treeId, treeNode) {
+                    if (treeNode.page != undefined) {
+                        //判断选项卡是否已经存在
+                        var e = $("#mytabs").tabs("exists", treeNode.name);
+                        if (e) {
+                            //已经存在，选中
+                            $("#mytabs").tabs("select", treeNode.name);
+                        } else {
+                            //动态添加一个选项卡
+                            $("#mytabs").tabs("add", {
+                                title: treeNode.name,
+                                closable: true,
+                                content: '<iframe frameborder="0" height="100%" width="100%" src="' + treeNode.page + '"></iframe>'
+                            });
+                        }
+                    }
+                }
+            }
+        };
+
+        //发送ajax请求，获取json数据
+        //jQuery提供 的ajax方法：ajax、post、get、load、getJSON、getScript
+        var url = "${pageContext.request.contextPath}/json/menu.json";
+        $.post(url, {}, function (data) {
+            //调用API初始化ztree
+            $.fn.zTree.init($("#ztree3"), setting3, data);
+        }, 'json');
+    });
+</script>
