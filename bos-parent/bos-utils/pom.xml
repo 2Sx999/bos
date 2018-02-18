@@ -11,5 +11,12 @@
 
     <artifactId>bos-utils</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>cn.porkchop.bos</groupId>
+            <artifactId>bos-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

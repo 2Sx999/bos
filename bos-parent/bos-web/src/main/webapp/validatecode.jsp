@@ -17,7 +17,7 @@
 	g.setColor(new Color(0xDCDCDC));
 	g.fillRect(0, 0, width, height);
 	// draw the border
-	g.setColor(Color.black);
+	g.setColor(Color.WHITE);
 	g.drawRect(0, 0, width - 1, height - 1);
 	// create a random instance to generate the codes
 	Random rdm = new Random();
@@ -30,7 +30,7 @@
 	}
 	// generate a random code
 	String capstr = hash1.substring(0, 4);
-	session.setAttribute("key", capstr);
+	session.setAttribute("captcha", capstr);
 	g.setColor(new Color(0, 100, 0));
 	g.setFont(new Font("Candara", Font.BOLD, 24));
 	g.drawString(capstr, 8, 24);

@@ -28,7 +28,7 @@
 	type="text/javascript"></script>
 <!-- 导入ztree类库 -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath }/js/ztree/zTreeStyle.css"
+	href="${pageContext.request.contextPath }/css/ztree/zTreeStyle.css"
 	type="text/css" />
 <script
 	src="${pageContext.request.contextPath }/js/ztree/jquery.ztree.all-3.5.js"

@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-    <constant name="struts.devMode" value="false" />
+    <constant name="struts.devMode" value="true" />
     <!--可以省略,因为spring的整合jar包配置过
     <constant name="struts.objectFactory" value="spring"/>
     -->
@@ -11,6 +11,11 @@
         <!-- 需要进行权限控制的页面访问 -->
         <action name="page_*_*">
             <result>/WEB-INF/pages/{1}/{2}.jsp</result>
+        </action>
+        <action name="UserAction_*" class="cn.porkchop.bos.action.UserAction" method="{1}">
+            <result name="home">/index.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <result name="logout" type="redirect">/login.jsp</result>
         </action>
     </package>
 </struts>
