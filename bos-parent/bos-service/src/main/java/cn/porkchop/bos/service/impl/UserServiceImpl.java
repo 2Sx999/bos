@@ -26,4 +26,9 @@ public class UserServiceImpl implements UserService {
         List<User> list = userDao.findByCriteria(criteria);
         return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    public void editPassword(User user) {
+        userDao.executeUpdate("user.editPassword",user.getPassword(),user.getId());
+    }
 }

@@ -3,19 +3,36 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-    <constant name="struts.devMode" value="true" />
+    <constant name="struts.devMode" value="true"/>
     <!--可以省略,因为spring的整合jar包配置过
     <constant name="struts.objectFactory" value="spring"/>
     -->
     <package name="basicstruts2" extends="struts-default">
+        <interceptors>
+            <interceptor name="LoginInterceptor" class="cn.porkchop.bos.interceptor.LoginInterceptor">
+                <!--去除不要拦截的方法-->
+                <param name="excludeMethods">login</param>
+            </interceptor>
+            <interceptor-stack name="LoginStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="LoginInterceptor"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="LoginStack"/>
+        <global-results>
+            <result name="login">/login.jsp</result>
+        </global-results>
+
         <!-- 需要进行权限控制的页面访问 -->
         <action name="page_*_*">
             <result>/WEB-INF/pages/{1}/{2}.jsp</result>
         </action>
         <action name="UserAction_*" class="cn.porkchop.bos.action.UserAction" method="{1}">
-            <result name="home">/index.jsp</result>
-            <result name="login" >/login.jsp</result>
+            <result name="home" type="redirect">/index.jsp</result>
             <result name="logout" type="redirect">/login.jsp</result>
+        </action>
+        <action name="StaffAction_*" class="cn.porkchop.bos.action.StaffAction" method="{1}">
+            <result name="list">/WEB-INF/pages/base/staff.jsp</result>
         </action>
     </package>
 </struts>

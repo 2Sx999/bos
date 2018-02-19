@@ -1,6 +1,8 @@
 package cn.porkchop.bos.dao.impl;
 
 import cn.porkchop.bos.dao.BaseDao;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +55,15 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
     @Override
     public List<T> findByCriteria(DetachedCriteria dc) {
         return (List<T>) getHibernateTemplate().findByCriteria(dc);
+    }
+
+    @Override
+    public void executeUpdate(String queryName, Object... objects) {
+        Session session = getSessionFactory().getCurrentSession();
+        Query query = session.getNamedQuery(queryName);
+        for (int i=0;i<objects.length;i++){
+           query.setParameter(i,objects[i]);
+        }
+        query.executeUpdate();
     }
 }

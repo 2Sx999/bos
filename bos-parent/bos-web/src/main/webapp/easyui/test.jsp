@@ -14,6 +14,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript"
+            src="${pageContext.request.contextPath }/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript"
             src="${pageContext.request.contextPath }/js/ztree/jquery.ztree.all.min-3.5.33.js"></script>
 </head>
 <script type="text/javascript">
@@ -55,11 +57,39 @@
         },
         "dataType": "json"
     });
+    $(function () {
+        $.messager.show({
+            title: "欢迎信息",
+            msg: "欢迎admin",
+            timeout: 5000,
+            showType: 'slide'
+        });
+    });
 
 </script>
 <body class="easyui-layout">
 
-<div data-options="region:'north'" style="height: 50px">a</div>
+<div data-options="region:'north'" style="height: 50px">
+    <a href="#" class="easyui-menubutton" data-options="menu:'#menu',iconCls:'icon-help'" style="float: right;margin-right: 10px;margin-top: 10px">控制面板</a>
+    <div id="menu" style="width:150px;">
+        <div data-options="iconCls:'icon-undo'">Undo</div>
+        <div data-options="iconCls:'icon-redo'">Redo</div>
+        <div class="menu-sep"></div>
+        <div>
+            <span>Toolbar</span>
+            <div>
+                <div>Address</div>
+                <div>Link</div>
+                <div>Navigation Toolbar</div>
+                <div>Bookmark Toolbar</div>
+                <div class="menu-sep"></div>
+                <div>New Toolbar...</div>
+            </div>
+        </div>
+        <div data-options="iconCls:'icon-remove'">Delete</div>
+        <div>Select All</div>
+    </div>
+</div>
 <div data-options="region:'south'" style="height: 40px;">a</div>
 <div data-options="region:'east'" title="East" style="width: 100px;">a</div>
 <div data-options="region:'west'" title="West" style="width: 200px;">
@@ -72,7 +102,9 @@
             <ul id="ztree" class="ztree"></ul>
         </div>
         <div title="面板二"><a href="page_base_staff.action">asdfafds</a></div>
-        <div title="面板三">3333</div>
+        <div title="面板三">
+
+        </div>
     </div>
 
 </div>

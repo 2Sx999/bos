@@ -2,11 +2,14 @@ package cn.porkchop.bos.action;
 
 import cn.porkchop.bos.domain.User;
 import cn.porkchop.bos.service.UserService;
+import cn.porkchop.bos.utils.BOSUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class UserAction extends BaseAction<User> {
 
@@ -44,9 +47,34 @@ public class UserAction extends BaseAction<User> {
         }
     }
 
+    /**
+     * 登出
+     *
+     * @date 2018/2/19 14:53
+     * @author porkchop
+     */
     public String logout() {
         ServletActionContext.getRequest().getSession().invalidate();
         return LOGOUT;
+    }
+
+    /**
+     * 修改密码
+     *
+     * @date 2018/2/19 14:53
+     * @author porkchop
+     */
+    public String editPassword() throws IOException {
+        User user = BOSUtils.getLoginUser();
+        user.setPassword(DigestUtils.md5DigestAsHex(getModel().getPassword().getBytes()));
+        try {
+            userService.editPassword(user);
+            ServletActionContext.getResponse().getWriter().write("true");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ServletActionContext.getResponse().getWriter().write("false");
+        }
+        return NONE;
     }
 
     public void setCaptcha(String captcha) {

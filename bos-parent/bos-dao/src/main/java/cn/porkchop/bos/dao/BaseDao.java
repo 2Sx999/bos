@@ -17,4 +17,6 @@ public interface BaseDao<T> {
     public T findById(Serializable id);
 
     List<T> findByCriteria(DetachedCriteria dc);
+
+    void executeUpdate(String queryName,Object... objects);
 }

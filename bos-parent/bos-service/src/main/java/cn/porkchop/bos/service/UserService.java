@@ -10,4 +10,12 @@ public interface UserService {
      * @author porkchop
      */
     User login(User user);
+
+    /**
+     * 修改密码
+     *
+     * @date 2018/2/19 14:53
+     * @author porkchop
+     */
+    void editPassword(User user);
 }
