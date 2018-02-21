@@ -16,7 +16,18 @@ public interface BaseDao<T> {
 
     public T findById(Serializable id);
 
-    List<T> findByCriteria(DetachedCriteria dc);
+    List<?> findByCriteria(DetachedCriteria dc);
 
-    void executeUpdate(String queryName,Object... objects);
+    /**
+     * @param page
+     *         开始的index,从0开始
+     * @param rows
+     *         最大的条目数,负数表示无限制
+     * @date 2018/2/21 11:46
+     * @author porkchop
+     */
+    List<?> findByCriteria(DetachedCriteria dc, int start, int rows);
+
+    void executeUpdate(String queryName, Object... objects);
+
 }

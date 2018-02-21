@@ -53,16 +53,21 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
     }
 
     @Override
-    public List<T> findByCriteria(DetachedCriteria dc) {
-        return (List<T>) getHibernateTemplate().findByCriteria(dc);
+    public List<?> findByCriteria(DetachedCriteria dc) {
+        return findByCriteria(dc, 0, -1);
+    }
+
+    @Override
+    public List<?> findByCriteria(DetachedCriteria dc, int start, int rows) {
+        return getHibernateTemplate().findByCriteria(dc, start, rows);
     }
 
     @Override
     public void executeUpdate(String queryName, Object... objects) {
         Session session = getSessionFactory().getCurrentSession();
         Query query = session.getNamedQuery(queryName);
-        for (int i=0;i<objects.length;i++){
-           query.setParameter(i,objects[i]);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i, objects[i]);
         }
         query.executeUpdate();
     }

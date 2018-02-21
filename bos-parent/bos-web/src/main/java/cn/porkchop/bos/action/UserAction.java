@@ -74,6 +74,7 @@ public class UserAction extends BaseAction<User> {
             e.printStackTrace();
             ServletActionContext.getResponse().getWriter().write("false");
         }
+        ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
         return NONE;
     }
 

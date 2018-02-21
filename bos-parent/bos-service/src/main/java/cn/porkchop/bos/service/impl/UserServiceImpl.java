@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
         criteria.add(Restrictions.eq("username", user.getUsername()));
         criteria.add(Restrictions.eq("password", DigestUtils.md5DigestAsHex(user.getPassword().getBytes())));
-        List<User> list = userDao.findByCriteria(criteria);
+        List<User> list = (List<User>) userDao.findByCriteria(criteria);
         return list.isEmpty() ? null : list.get(0);
     }
 
