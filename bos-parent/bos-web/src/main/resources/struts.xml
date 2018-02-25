@@ -34,5 +34,11 @@
         <action name="StaffAction_*" class="cn.porkchop.bos.action.StaffAction" method="{1}">
             <result name="list">/WEB-INF/pages/base/staff.jsp</result>
         </action>
+        <action name="RegionAction_*" class="cn.porkchop.bos.action.RegionAction" method="{1}">
+            <result name="list">/WEB-INF/pages/base/region.jsp</result>
+        </action>
+        <action name="SubareaAction_*" class="cn.porkchop.bos.action.SubareaAction" method="{1}">
+            <result name="list">/WEB-INF/pages/base/subarea.jsp</result>
+        </action>
     </package>
 </struts>

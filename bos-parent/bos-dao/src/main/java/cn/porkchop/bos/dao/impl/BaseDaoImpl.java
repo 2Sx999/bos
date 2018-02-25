@@ -44,7 +44,12 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 
     @Override
     public List<T> findAll() {
-        return (List<T>) getHibernateTemplate().find("from" + entityClass.getSimpleName());
+        return (List<T>) getHibernateTemplate().find("from " + entityClass.getSimpleName());
+    }
+
+    @Override
+    public List<T> find(String hql, Object[] objects) {
+        return (List<T>) getHibernateTemplate().find(hql, objects);
     }
 
     @Override
@@ -71,4 +76,11 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
         }
         query.executeUpdate();
     }
+
+    @Override
+    public void saveOrUpdate(T entity) {
+        getHibernateTemplate().saveOrUpdate(entity);
+    }
+
+
 }

@@ -200,7 +200,6 @@
         function doDblClickRow(rowIndex, rowData) {
             $("#editStaffWindow").window("open");
             $("#editStaffForm").form("load", rowData);
-            console.log(rowData);
         }
     </script>
 </head>

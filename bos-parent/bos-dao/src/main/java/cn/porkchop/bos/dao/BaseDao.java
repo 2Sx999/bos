@@ -14,12 +14,14 @@ public interface BaseDao<T> {
 
     List<T> findAll();
 
+    List<T> find(String hql, Object[] objects);
+
     public T findById(Serializable id);
 
     List<?> findByCriteria(DetachedCriteria dc);
 
     /**
-     * @param page
+     * @param start
      *         开始的index,从0开始
      * @param rows
      *         最大的条目数,负数表示无限制
@@ -29,5 +31,7 @@ public interface BaseDao<T> {
     List<?> findByCriteria(DetachedCriteria dc, int start, int rows);
 
     void executeUpdate(String queryName, Object... objects);
+
+    void saveOrUpdate(T entity);
 
 }
