@@ -239,7 +239,7 @@
         <tr>
             <td style="width: 300px;">
                 <div style="color: #999; font-size: 8pt;">
-                    传智播客 | Powered by <a href="http://www.itcast.cn/">itcast.cn</a>
+                    porkchop.cn | Powered by <a href="https://github.com/qq714772696/bos" target="_blank">bos</a>
                 </div>
             </td>
             <td style="width: *;" class="co1"><span id="online"

@@ -6,11 +6,15 @@ import cn.porkchop.bos.utils.BOSUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@Controller
+@Scope("prototype")
 public class UserAction extends BaseAction<User> {
 
     private static final String HOME = "home";

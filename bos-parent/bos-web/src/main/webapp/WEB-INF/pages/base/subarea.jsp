@@ -44,7 +44,7 @@
         }
 
         function doExport() {
-            alert("导出");
+            location.href="${pageContext.request.contextPath}/SubareaAction_exportToXls.action";
         }
 
         function doImport() {
@@ -89,7 +89,7 @@
             checkbox: true,
         }, {
             field: 'showid',
-            title: '分拣编号',
+            title: '分区编号',
             width: 120,
             align: 'center',
             formatter: function (data, row, index) {
@@ -160,7 +160,7 @@
                 pageList: [30, 50, 100],
                 pagination: true,
                 toolbar: toolbar,
-                url: "json/subarea.json",
+                url: "${pageContext.request.contextPath}/SubareaAction_findByPaginationWithCondition.action",
                 idField: 'id',
                 columns: columns,
                 onDblClickRow: doDblClickRow
@@ -201,8 +201,18 @@
                 height: 400,
                 resizable: false
             });
+
+            //搜索表单提交时触发
             $("#btn").click(function () {
-                alert("执行查询...");
+                $("#grid").datagrid("load",
+                    {
+                        "region.city": $("#region_city").val(),
+                        "region.district": $("#region_district").val(),
+                        "region.province": $("#region_province").val(),
+                        "addresskey":$("#addresskey").val()
+                    }
+                );
+                $("#searchWindow").window("close");
             });
 
         });
@@ -334,19 +344,19 @@
                 </tr>
                 <tr>
                     <td>省</td>
-                    <td><input type="text" name="region.province"/></td>
+                    <td><input type="text" name="region.province" id="region_province"/></td>
                 </tr>
                 <tr>
                     <td>市</td>
-                    <td><input type="text" name="region.city"/></td>
+                    <td><input type="text" name="region.city" id="region_city"/></td>
                 </tr>
                 <tr>
                     <td>区（县）</td>
-                    <td><input type="text" name="region.district"/></td>
+                    <td><input type="text" name="region.district" id="region_district"/></td>
                 </tr>
                 <tr>
                     <td>关键字</td>
-                    <td><input type="text" name="addresskey"/></td>
+                    <td><input type="text" name="addresskey" id="addresskey"/></td>
                 </tr>
                 <tr>
                     <td colspan="2"><a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>

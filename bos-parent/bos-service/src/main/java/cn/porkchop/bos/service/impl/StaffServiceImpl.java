@@ -7,6 +7,7 @@ import cn.porkchop.bos.service.StaffService;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,13 +31,10 @@ public class StaffServiceImpl implements StaffService {
         countCriteria.setProjection(Projections.rowCount());
         //获得总记录数
         Long count = (Long) staffDao.findByCriteria(countCriteria).get(0);
-        EasyUIDataGridResult<Staff> result = new EasyUIDataGridResult<>();
-        result.setTotal(count);
         DetachedCriteria listCriteria = DetachedCriteria.forClass(Staff.class);
         //获得当前页的数据
         List<Staff> list = (List<Staff>) staffDao.findByCriteria(listCriteria, rows * (page - 1), rows);
-        result.setRows(list);
-        return result;
+        return new EasyUIDataGridResult<>(count, list);
     }
 
     @Override
@@ -59,5 +57,14 @@ public class StaffServiceImpl implements StaffService {
         staff.setStandard(model.getStandard());
         staff.setStation(model.getStation());
         staff.setTelephone(model.getTelephone());
+    }
+
+    @Override
+    public List<Staff> findAllUndeletedStaff() {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Staff.class);
+        //0表示未删除
+        criteria.add(Restrictions.eq("deltag", "0"));
+        List<Staff> list = (List<Staff>) staffDao.findByCriteria(criteria);
+        return list;
     }
 }

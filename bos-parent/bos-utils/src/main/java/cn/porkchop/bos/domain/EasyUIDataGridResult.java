@@ -27,4 +27,9 @@ public class EasyUIDataGridResult<T> {
     public void setRows(List<T> rows) {
         this.rows = rows;
     }
+
+    public EasyUIDataGridResult(Long total, List<T> rows) {
+        this.total = total;
+        this.rows = rows;
+    }
 }

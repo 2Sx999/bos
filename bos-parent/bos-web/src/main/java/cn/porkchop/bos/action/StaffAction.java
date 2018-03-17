@@ -6,9 +6,14 @@ import cn.porkchop.bos.service.StaffService;
 import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.util.List;
 
+@Controller
+@Scope("prototype")
 public class StaffAction extends BaseAction<Staff> {
     @Autowired
     private StaffService staffService;
@@ -30,8 +35,6 @@ public class StaffAction extends BaseAction<Staff> {
         return "list";
     }
 
-    private int page;
-    private int rows;
 
     /**
      * 分页查询所有员工
@@ -41,9 +44,8 @@ public class StaffAction extends BaseAction<Staff> {
      */
     public String findAllByPagination() throws IOException {
         EasyUIDataGridResult<Staff> result = staffService.findAllByPagination(page, rows);
-        String json = JSONObject.fromObject(result).toString();
-        ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
-        ServletActionContext.getResponse().getWriter().write(json);
+        String json = toJson(result, new String[]{"decidedzones"});
+        sendJson(json);
         return NONE;
     }
 
@@ -79,19 +81,17 @@ public class StaffAction extends BaseAction<Staff> {
         return "list";
     }
 
-    public int getPage() {
-        return page;
+    /**
+     * 查询所有未删除的员工
+     *
+     * @date 2018/3/15 21:56
+     * @author porkchop
+     */
+    public String findAllUndeletedStaff() throws IOException {
+        List<Staff> list = staffService.findAllUndeletedStaff();
+        String json = toJson(list, new String[]{"decidedzones"});
+        sendJson(json);
+        return NONE;
     }
 
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
 }

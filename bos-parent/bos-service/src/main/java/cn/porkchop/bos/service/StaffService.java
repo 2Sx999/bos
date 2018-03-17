@@ -3,6 +3,8 @@ package cn.porkchop.bos.service;
 import cn.porkchop.bos.domain.EasyUIDataGridResult;
 import cn.porkchop.bos.domain.Staff;
 
+import java.util.List;
+
 public interface StaffService {
     /**
      * 添加员工
@@ -35,4 +37,12 @@ public interface StaffService {
      * @author porkchop
      */
     void edit(Staff model);
+
+    /**
+     * 查询所有未删除的员工
+     *
+     * @date 2018/3/15 21:56
+     * @author porkchop
+     */
+    List<Staff> findAllUndeletedStaff();
 }

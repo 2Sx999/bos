@@ -64,6 +64,8 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 
     @Override
     public List<?> findByCriteria(DetachedCriteria dc, int start, int rows) {
+        //改变封装对象的方式
+        dc.setResultTransformer(DetachedCriteria.ROOT_ENTITY);
         return getHibernateTemplate().findByCriteria(dc, start, rows);
     }
 

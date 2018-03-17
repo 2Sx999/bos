@@ -13,6 +13,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Controller
+@Scope("prototype")
 public class RegionAction extends BaseAction<Region> {
     private File regionFile;
     @Autowired
@@ -72,16 +76,6 @@ public class RegionAction extends BaseAction<Region> {
         return NONE;
     }
 
-    private int page;
-    private int rows;
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
 
     /**
      * 分页查询所有
@@ -91,11 +85,8 @@ public class RegionAction extends BaseAction<Region> {
      */
     public String findAllByPagination() throws IOException {
         EasyUIDataGridResult result = regionService.findAllByPagination(page, rows);
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.setExcludes(new String[]{"subareas"});
-        String json = JSONObject.fromObject(result,jsonConfig).toString();
-        ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
-        ServletActionContext.getResponse().getWriter().write(json);
+        String json = toJson(result, new String[]{"subareas"});
+        sendJson(json);
         return NONE;
     }
 

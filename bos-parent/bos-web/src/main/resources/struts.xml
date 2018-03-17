@@ -27,18 +27,21 @@
         <action name="page_*_*">
             <result>/WEB-INF/pages/{1}/{2}.jsp</result>
         </action>
-        <action name="UserAction_*" class="cn.porkchop.bos.action.UserAction" method="{1}">
+        <action name="UserAction_*" class="userAction" method="{1}">
             <result name="home" type="redirect">/index.jsp</result>
             <result name="logout" type="redirect">/login.jsp</result>
         </action>
-        <action name="StaffAction_*" class="cn.porkchop.bos.action.StaffAction" method="{1}">
+        <action name="StaffAction_*" class="staffAction" method="{1}">
             <result name="list">/WEB-INF/pages/base/staff.jsp</result>
         </action>
-        <action name="RegionAction_*" class="cn.porkchop.bos.action.RegionAction" method="{1}">
+        <action name="RegionAction_*" class="regionAction" method="{1}">
             <result name="list">/WEB-INF/pages/base/region.jsp</result>
         </action>
-        <action name="SubareaAction_*" class="cn.porkchop.bos.action.SubareaAction" method="{1}">
+        <action name="SubareaAction_*" class="subareaAction" method="{1}">
             <result name="list">/WEB-INF/pages/base/subarea.jsp</result>
+        </action>
+        <action name="DecidedZoneAction_*" class="decidedZoneAction" method="{1}">
+            <result name="list">/WEB-INF/pages/base/decidedzone.jsp</result>
         </action>
     </package>
 </struts>

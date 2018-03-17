@@ -33,17 +33,14 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public EasyUIDataGridResult findAllByPagination(int page, int rows) {
-        EasyUIDataGridResult<Region> result = new EasyUIDataGridResult<>();
         //封装总数
         DetachedCriteria countCriteria = DetachedCriteria.forClass(Region.class);
         countCriteria.setProjection(Projections.rowCount());
         Long count = (Long) regionDao.findByCriteria(countCriteria).get(0);
-        result.setTotal(count);
         //封装数据
         DetachedCriteria listCriteria = DetachedCriteria.forClass(Region.class);
         List<Region> list = (List<Region>) regionDao.findByCriteria(listCriteria, (page - 1) * rows, rows);
-        result.setRows(list);
-        return result;
+        return new EasyUIDataGridResult<>(count, list);
     }
 
 
