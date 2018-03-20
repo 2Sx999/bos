@@ -70,4 +70,11 @@ public class SubareaServiceImpl implements SubareaService {
         criteria.add(Restrictions.isNull("decidedzone"));
         return (List<Subarea>) subareaDao.findByCriteria(criteria);
     }
+
+    @Override
+    public List<Subarea> findByDecidedZoneId(String decidedZoneId) {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Subarea.class);
+        detachedCriteria.add(Restrictions.eq("decidedzone.id", decidedZoneId));
+        return (List<Subarea>) subareaDao.findByCriteria(detachedCriteria);
+    }
 }

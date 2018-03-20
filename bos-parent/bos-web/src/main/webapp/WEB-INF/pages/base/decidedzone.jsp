@@ -44,7 +44,29 @@
         }
 
         function doAssociations() {
-            $('#customerWindow').window('open');
+            var rows = $("#grid").datagrid("getSelections");
+            if (rows.length != 1) {
+                //没选择一 个
+                $.messager.alert("提示信息", "请选择一个定区操作！", "warning");
+            } else {
+                $('#customerWindow').window('open');
+                //查询为关联的客户
+                $.post("${pageContext.request.contextPath}/DecidedZoneAction_findUnassociatedCustomer", {}, function (data) {
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<option value='" + data[i].id + "'>" + data[i].name + "(" + data[i].telephone + ")" + "</option>";
+                    }
+                    $("#noassociationSelect").html(html);
+                });
+                //查询和选中的定区关联的客户
+                $.post("${pageContext.request.contextPath}/DecidedZoneAction_findCustomerByDecidedZoneId", {id: rows[0].id}, function (data) {
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<option value='" + data[i].id + "'>" + data[i].name + "(" + data[i].telephone + ")" + "</option>";
+                    }
+                    $("#associationSelect").html(html);
+                });
+            }
         }
 
         //工具栏
@@ -128,7 +150,7 @@
                 url: "${pageContext.request.contextPath}/DecidedZoneAction_findAllByPagination.action",
                 idField: 'id',
                 columns: columns,
-                onDblClickRow: doDblClickRow
+                onClickRow: doClickRow
             });
 
             // 添加、修改定区
@@ -161,19 +183,32 @@
                     $("#addDecidedzoneForm").submit();
                 }
             });
+            //给左移和右移客户按钮绑定时间
+            $("#toRight").click(function () {
+                $("#associationSelect").append($("#noassociationSelect option:selected"));
+            });
+            $("#toLeft").click(function () {
+                $("#noassociationSelect").append($("#associationSelect option:selected"));
+            });
+            //提交关联表单
+            $("#associationBtn").click(function () {
+                var rows = $("#grid").datagrid("getSelections");
+                $("#customerDecidedZoneId").val(rows[0].id);
+                $("#associationSelect option").attr("selected", "selected");
+                $("#customerForm").submit();
+            });
         });
 
-        function doDblClickRow() {
-            alert("双击表格数据...");
+        function doClickRow(index,row) {
             $('#association_subarea').datagrid({
                 fit: true,
                 border: true,
                 rownumbers: true,
                 striped: true,
-                url: "json/association_subarea.json",
+                url: "${pageContext.request.contextPath}/SubareaAction_findByDecidedZoneId.action?decidedZoneId="+row.id,
                 columns: [[{
                     field: 'id',
-                    title: '分拣编号',
+                    title: '分区编号',
                     width: 120,
                     align: 'center'
                 }, {
@@ -232,7 +267,7 @@
                 border: true,
                 rownumbers: true,
                 striped: true,
-                url: "json/association_customer.json",
+                url: "${pageContext.request.contextPath}/DecidedZoneAction_findCustomerByDecidedZoneId?id="+row.id,
                 columns: [[{
                     field: 'id',
                     title: '客户编号',
@@ -355,7 +390,7 @@
      maximizable="false" style="top:20px;left:200px;width: 400px;height: 300px;">
     <div style="overflow:auto;padding:5px;" border="false">
         <form id="customerForm"
-              action="${pageContext.request.contextPath }/decidedzone_assigncustomerstodecidedzone.action"
+              action="${pageContext.request.contextPath }/DecidedZoneAction_reassociateCustomerToDecidedZone.action"
               method="post">
             <table class="table-edit" width="80%" align="center">
                 <tr class="title">

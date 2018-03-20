@@ -3,7 +3,6 @@ package cn.porkchop.bos.action;
 import cn.porkchop.bos.domain.EasyUIDataGridResult;
 import cn.porkchop.bos.domain.Subarea;
 import cn.porkchop.bos.service.SubareaService;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -11,7 +10,6 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import sun.misc.BASE64Encoder;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
@@ -43,7 +41,7 @@ public class SubareaAction extends BaseAction<Subarea> {
      */
     public String findByPaginationWithCondition() throws IOException {
         EasyUIDataGridResult<Subarea> result = subareaService.findByPaginationWithCondition(getModel(), page, rows);
-        String json = toJson(result, new String[]{"subareas"});
+        String json = toJson(result, new String[]{"subareas", "decidedzone"});
         sendJson(json);
         return NONE;
     }
@@ -97,5 +95,24 @@ public class SubareaAction extends BaseAction<Subarea> {
         String json = toJson(list, new String[]{"decidedzone", "region"});
         sendJson(json);
         return NONE;
+    }
+
+    private String decidedZoneId;
+
+    /**
+     * 根据定区查找关联的分区
+     *
+     * @date 2018/3/20 19:21
+     * @author porkchop
+     */
+    public String findByDecidedZoneId() throws IOException {
+        List<Subarea> list = subareaService.findByDecidedZoneId(decidedZoneId);
+        String json = toJson(list,new String[]{"decidedzone","subareas"});
+        sendJson(json);
+        return NONE;
+    }
+
+    public void setDecidedZoneId(String decidedZoneId) {
+        this.decidedZoneId = decidedZoneId;
     }
 }

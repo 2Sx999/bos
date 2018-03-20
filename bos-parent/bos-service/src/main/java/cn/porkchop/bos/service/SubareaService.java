@@ -37,4 +37,14 @@ public interface SubareaService {
      * @author porkchop
      */
     List<Subarea> findUnconnecteToDecidedZone();
+
+    /**
+     * 根据定区查找关联的分区
+     *
+     * @date 2018/3/20 19:21
+     * @author porkchop
+     */
+    List<Subarea> findByDecidedZoneId(String decidedZoneId);
+
+
 }
