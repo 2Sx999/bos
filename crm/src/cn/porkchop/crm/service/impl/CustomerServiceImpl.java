@@ -3,6 +3,7 @@ package cn.porkchop.crm.service.impl;
 
 import cn.porkchop.crm.pojo.Customer;
 import cn.porkchop.crm.service.CustomerService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,11 +47,26 @@ public class CustomerServiceImpl extends JdbcDaoSupport implements CustomerServi
     @Override
     public void associateCustomerToDecidedZone(String decidedZoneId, Integer[] customerIds) {
         getJdbcTemplate().update("UPDATE t_customer SET decidedzone_id=NULL  WHERE decidedzone_id=?", decidedZoneId);
-        if(customerIds==null){
+        if (customerIds == null) {
             return;
         }
         for (Integer customerId : customerIds) {
             getJdbcTemplate().update("UPDATE t_customer SET decidedzone_id=? WHERE id=?", decidedZoneId, customerId);
+        }
+    }
+
+    @Override
+    public Customer findCustomerByTelephone(String telephone) {
+        List<Customer> query = getJdbcTemplate().query("SELECT * FROM t_customer WHERE telephone=?", rowMapper, telephone);
+        return query.isEmpty() ? null : query.get(0);
+    }
+
+    @Override
+    public String findDecidedZoneIdByAddress(String address) {
+        try {
+            return getJdbcTemplate().queryForObject("SELECT decidedzone_id FROM t_customer WHERE address=?", String.class, address);
+        } catch (DataAccessException e) {
+            return null;
         }
     }
 }

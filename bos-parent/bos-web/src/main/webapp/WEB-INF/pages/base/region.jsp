@@ -1,3 +1,4 @@
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -43,26 +44,30 @@
         }
 
         //工具栏
-        var toolbar = [{
-            id: 'button-edit',
-            text: '修改',
-            iconCls: 'icon-edit',
-            handler: doView
-        }, {
-            id: 'button-add',
-            text: '增加',
-            iconCls: 'icon-add',
-            handler: doAdd
-        }, {
-            id: 'button-delete',
-            text: '删除',
-            iconCls: 'icon-cancel',
-            handler: doDelete
-        }, {
-            id: 'button-import',
-            text: '导入',
-            iconCls: 'icon-redo'
-        }];
+        var toolbar = [
+            <shiro:hasPermission name="show">
+            {
+                id: 'button-edit',
+                text: '修改',
+                iconCls: 'icon-edit',
+                handler: doView
+            }, {
+                id: 'button-add',
+                text: '增加',
+                iconCls: 'icon-add',
+                handler: doAdd
+            }, {
+                id: 'button-delete',
+                text: '删除',
+                iconCls: 'icon-cancel',
+                handler: doDelete
+            },
+            </shiro:hasPermission>
+            {
+                id: 'button-import',
+                text: '导入',
+                iconCls: 'icon-redo'
+            }];
         // 定义列
         var columns = [[{
             field: 'id',
@@ -137,7 +142,7 @@
         });
 
         function doDblClickRow() {
-            alert("双击表格数据...");
+
         }
     </script>
 </head>

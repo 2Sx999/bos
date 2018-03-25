@@ -31,4 +31,12 @@ public class UserServiceImpl implements UserService {
     public void editPassword(User user) {
         userDao.executeUpdate("user.editPassword",user.getPassword(),user.getId());
     }
+
+    @Override
+    public User findByUsername(String username) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
+        criteria.add(Restrictions.eq("username", username));
+        List<User> list = (List<User>) userDao.findByCriteria(criteria);
+        return list.isEmpty() ? null : list.get(0);
+    }
 }

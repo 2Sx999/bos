@@ -4,6 +4,7 @@ import cn.porkchop.bos.domain.EasyUIDataGridResult;
 import cn.porkchop.bos.domain.Staff;
 import cn.porkchop.bos.service.StaffService;
 import net.sf.json.JSONObject;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -65,6 +66,7 @@ public class StaffAction extends BaseAction<Staff> {
      * @date 2018/2/21 15:54
      * @author porkchop
      */
+    @RequiresPermissions("staff-delete")
     public String batchDelete() {
         staffService.batchDelete(ids);
         return "list";

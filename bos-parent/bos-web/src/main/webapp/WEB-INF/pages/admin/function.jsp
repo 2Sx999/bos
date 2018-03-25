@@ -39,7 +39,9 @@
 					}
 				}           
 			],
-			url : '',
+			pagination:true,
+			fitColumns:true,
+			url : '${pageContext.request.contextPath}/FunctionAction_findAllByPagination.action',
 			columns : [[
 			  {
 				  field : 'id',

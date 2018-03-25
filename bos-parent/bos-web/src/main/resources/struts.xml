@@ -15,14 +15,18 @@
             </interceptor>
             <interceptor-stack name="LoginStack">
                 <interceptor-ref name="defaultStack"/>
-                <interceptor-ref name="LoginInterceptor"/>
+                <!--<interceptor-ref name="LoginInterceptor"/>-->
             </interceptor-stack>
         </interceptors>
         <default-interceptor-ref name="LoginStack"/>
         <global-results>
+            <result name="unauthorized">/unauthorized.jsp</result>
             <result name="login">/login.jsp</result>
         </global-results>
-
+        <global-exception-mappings>
+            <!--未授权的全局异常处理-->
+            <exception-mapping exception="org.apache.shiro.authz.UnauthorizedException" result="unauthorized"/>
+        </global-exception-mappings>
         <!-- 需要进行权限控制的页面访问 -->
         <action name="page_*_*">
             <result>/WEB-INF/pages/{1}/{2}.jsp</result>
@@ -42,6 +46,15 @@
         </action>
         <action name="DecidedZoneAction_*" class="decidedZoneAction" method="{1}">
             <result name="list">/WEB-INF/pages/base/decidedzone.jsp</result>
+        </action>
+        <action name="NoticeBillAction_*" class="noticeBillAction" method="{1}">
+            <result name="add">/WEB-INF/pages/qupai/noticebill_add.jsp</result>
+        </action>
+        <action name="WorkOrderManageAction_*" class="workOrderManageAction" method="{1}">
+            <result name="add">/WEB-INF/pages/qupai/quickworkorder.jsp</result>
+        </action>
+        <action name="FunctionAction_*" class="functionAction" method="{1}">
+            <result name="list">/WEB-INF/pages/admin/function.jsp</result>
         </action>
     </package>
 </struts>

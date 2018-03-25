@@ -30,8 +30,8 @@
 <div class="page-container">
     <h1>登录(Login)</h1>
     <form action="${pageContext.request.contextPath}/UserAction_login.action" method="post">
-        <input type="text" name="username" class="username" placeholder="请输入您的用户名！" style="width:318px"/>
-        <input type="password" name="password" class="password" placeholder="请输入您的用户密码！" style="width:318px"/>
+        <input type="text" name="username" class="username" placeholder="请输入您的用户名！" style="width:318px" value="root"/>
+        <input type="password" name="password" class="password" placeholder="请输入您的用户密码！" style="width:318px" value="123"/>
         <input type="Captcha" class="Captcha" name="captcha" placeholder="请输入验证码！"/>
         <img src="${pageContext.request.contextPath}/validatecode.jsp" style="margin-top: 30px"
              onclick="this.src='${pageContext.request.contextPath }/validatecode.jsp?'+Math.random();"/>
@@ -40,7 +40,6 @@
         <div class="error"><span>+</span></div>
     </form>
 </div>
-
 
 </body>
 </html>

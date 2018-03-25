@@ -18,4 +18,12 @@ public interface UserService {
      * @author porkchop
      */
     void editPassword(User user);
+
+    /**
+     * 根据用户名查询用户
+     *
+     * @date 2018/3/21 17:11
+     * @author porkchop
+     */
+    User findByUsername(String username);
 }
