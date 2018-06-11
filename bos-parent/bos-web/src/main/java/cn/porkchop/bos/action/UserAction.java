@@ -1,5 +1,6 @@
 package cn.porkchop.bos.action;
 
+import cn.porkchop.bos.domain.EasyUIDataGridResult;
 import cn.porkchop.bos.domain.User;
 import cn.porkchop.bos.service.UserService;
 import cn.porkchop.bos.utils.BOSUtils;
@@ -15,6 +16,7 @@ import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @Scope("prototype")
@@ -108,6 +110,36 @@ public class UserAction extends BaseAction<User> {
         }
         ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
         return NONE;
+    }
+
+    private String[] roleIds;
+
+    /**
+     * 添加用户
+     *
+     * @date 2018/3/28 20:55
+     * @author porkchop
+     */
+    public String add() {
+        userService.add(getModel(), roleIds);
+        return "list";
+    }
+
+    /**
+     * 分页查询所有
+     *
+     * @date 2018/3/29 11:04
+     * @author porkchop
+     */
+    public String findAllByPagination() throws IOException {
+        EasyUIDataGridResult<User> result = userService.findAllByPagination(rows, page);
+        sendJson(toJson(result, new String[]{"noticebills", "roles"}));
+        return NONE;
+    }
+
+
+    public void setRoleIds(String[] roleIds) {
+        this.roleIds = roleIds;
     }
 
     public void setCaptcha(String captcha) {

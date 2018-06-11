@@ -3,7 +3,7 @@ package cn.porkchop.bos.service.impl;
 import cn.porkchop.bos.dao.FunctionDao;
 import cn.porkchop.bos.domain.EasyUIDataGridResult;
 import cn.porkchop.bos.domain.Function;
-import cn.porkchop.bos.domain.Staff;
+import cn.porkchop.bos.domain.User;
 import cn.porkchop.bos.service.FunctionService;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
@@ -43,5 +43,16 @@ public class FunctionServiceImpl implements FunctionService {
         //获得当前页的数据
         List<Function> list = (List<Function>) functionDao.findByCriteria(listCriteria, rows * (page - 1), rows);
         return new EasyUIDataGridResult<>(count, list);
+    }
+
+    @Override
+    public List<Function> findByUserId(String id) {
+        return functionDao.findByUserId(id);
+    }
+
+    @Override
+    public List<Function> findMenu(User loginUser) {
+        //如果时超级管理员,直接返回所有菜单
+        return "root".equals(loginUser.getUsername()) ? functionDao.findAllMenu() : functionDao.findMenuByUserId(loginUser.getId());
     }
 }

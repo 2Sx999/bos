@@ -2,6 +2,7 @@ package cn.porkchop.bos.domain;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class User implements java.io.Serializable {
 	private String telephone;
 	private String remark;
 	private Set noticebills = new HashSet(0);
-	private Set roles = new HashSet(0);
+	private Set<Role> roles = new HashSet(0);
 
 	// Constructors
 
@@ -50,6 +51,15 @@ public class User implements java.io.Serializable {
 		this.remark = remark;
 		this.noticebills = noticebills;
 		this.roles = roles;
+	}
+
+	public String getRoleNames(){
+		String roleNames="";
+		for(Iterator<Role> iterator= roles.iterator();iterator.hasNext();){
+			Role role = iterator.next();
+			roleNames+=role.getName()+" ";
+		}
+		return roleNames;
 	}
 
 	// Property accessors

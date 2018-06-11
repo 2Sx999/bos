@@ -1,18 +1,27 @@
-package cn.porkchop.bos.service;
+package cn.porkchop.bos.service.realm;
 
+import cn.porkchop.bos.dao.FunctionDao;
 import cn.porkchop.bos.dao.UserDao;
+import cn.porkchop.bos.domain.Function;
 import cn.porkchop.bos.domain.User;
+import cn.porkchop.bos.service.FunctionService;
+import cn.porkchop.bos.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class BOSRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
+    @Autowired
+    private FunctionService functionService;
 
     /**
      * 授权
@@ -23,11 +32,19 @@ public class BOSRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        //授权
-        info.addStringPermission("staff-list");
-        //后期修改,从数据库中读权限
-        User user1 = (User) SecurityUtils.getSubject().getPrincipal();
-        User user2 = (User) principalCollection.getPrimaryPrincipal();
+        //获取当前登录用户对象
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        // User user = (User) principalCollection.getPrimaryPrincipal();
+        //从市数据库中查询权限
+        List<Function> list = null;
+        if (user.getUsername().equals("root")) {
+            list = functionService.findAll();
+        } else {
+            list = functionService.findByUserId(user.getId());
+        }
+        for (Function function : list) {
+            info.addStringPermission(function.getCode());
+        }
         return info;
     }
 

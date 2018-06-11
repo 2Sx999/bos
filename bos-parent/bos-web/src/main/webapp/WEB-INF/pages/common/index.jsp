@@ -180,7 +180,7 @@
         }
         // 版权信息
         function showAbout() {
-            $.messager.alert("宅急送 v1.0", "管理员邮箱: zqx@itcast.cn");
+            $.messager.alert("宅急送 v1.0", "管理员邮箱: 714772696@qq.con");
         }
     </script>
 </head>
@@ -243,7 +243,7 @@
                 </div>
             </td>
             <td style="width: *;" class="co1"><span id="online"
-                                                    style="background: url(${pageContext.request.contextPath }/images/online.png) no-repeat left;padding-left:18px;margin-left:3px;font-size:8pt;color:#005590;">在线人数:1</span>
+                                                    style="background: url(${pageContext.request.contextPath }/images/online.png) no-repeat left;padding-left:18px;margin-left:3px;font-size:8pt;color:#005590;"></span>
             </td>
         </tr>
         </tbody>

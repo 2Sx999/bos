@@ -3,6 +3,7 @@ package cn.porkchop.bos.action;
 import cn.porkchop.bos.domain.EasyUIDataGridResult;
 import cn.porkchop.bos.domain.Function;
 import cn.porkchop.bos.service.FunctionService;
+import cn.porkchop.bos.utils.BOSUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ public class FunctionAction extends BaseAction<Function> {
      */
     public String findAll() throws IOException {
         List<Function> list = functionService.findAll();
-        String json = toJson(list, new String[]{"parentFunction", "children"});
+        String json = toJson(list, new String[]{"parentFunction", "children", "roles"});
         sendJson(json);
         return NONE;
     }
@@ -39,7 +40,9 @@ public class FunctionAction extends BaseAction<Function> {
         functionService.add(getModel());
         return "list";
     }
-private String fucntionPage;
+
+    private String fucntionPage;
+
     /**
      * 分页查询所有
      *
@@ -47,9 +50,21 @@ private String fucntionPage;
      * @author porkchop
      */
     public String findAllByPagination() throws IOException {
-        EasyUIDataGridResult<Function> result = functionService.findAllByPagination(Integer.parseInt(getModel().getPage()),rows);
-        String json = toJson(result, new String[]{"parentFunction","roles","children"});
+        EasyUIDataGridResult<Function> result = functionService.findAllByPagination(Integer.parseInt(getModel().getPage()), rows);
+        String json = toJson(result, new String[]{"parentFunction", "roles", "children"});
         sendJson(json);
+        return NONE;
+    }
+
+    /**
+     * 根据当前用户的权限查询菜单
+     *
+     * @date 2018/3/29 15:59
+     * @author porkchop
+     */
+    public String findMenu() throws IOException {
+        List<Function> list = functionService.findMenu(BOSUtils.getLoginUser());
+        sendJson(toJson(list,new String[]{"parentFunction","roles","children"}));
         return NONE;
     }
 

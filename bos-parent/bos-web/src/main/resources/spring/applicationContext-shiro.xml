@@ -8,6 +8,8 @@
     <!-- 注册安全管理器对象 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="bosRealm"/>
+        <!--注入缓存管理器-->
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
     <!--shiro过滤器-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -26,12 +28,12 @@
                 /validatecode.jsp* = anon
                 /login.jsp = anon
                 /UserAction_login.action = anon
-                /page_base_staff.action = perms["staff-list"]
+                /page_base_staff.action = perms["staff"]
                 /* = authc
             </value>
         </property>
     </bean>
-    <bean id="bosRealm" class="cn.porkchop.bos.service.BOSRealm"/>
+    <bean id="bosRealm" class="cn.porkchop.bos.service.realm.BOSRealm"/>
     <!-- 开启shiro框架注解支持 -->
     <bean id="defaultAdvisorAutoProxyCreator"
           class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
@@ -41,5 +43,8 @@
 
     <!-- 配置shiro框架提供的切面类，用于创建代理对象 -->
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"/>
-
+    <!--注册缓存管理器-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
 </beans>

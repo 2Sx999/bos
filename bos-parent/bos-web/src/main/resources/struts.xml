@@ -34,6 +34,7 @@
         <action name="UserAction_*" class="userAction" method="{1}">
             <result name="home" type="redirect">/index.jsp</result>
             <result name="logout" type="redirect">/login.jsp</result>
+            <result name="list">/WEB-INF/pages/admin/userlist.jsp</result>
         </action>
         <action name="StaffAction_*" class="staffAction" method="{1}">
             <result name="list">/WEB-INF/pages/base/staff.jsp</result>
@@ -55,6 +56,9 @@
         </action>
         <action name="FunctionAction_*" class="functionAction" method="{1}">
             <result name="list">/WEB-INF/pages/admin/function.jsp</result>
+        </action>
+         <action name="RoleAction_*" class="roleAction" method="{1}">
+            <result name="list">/WEB-INF/pages/admin/role.jsp</result>
         </action>
     </package>
 </struts>

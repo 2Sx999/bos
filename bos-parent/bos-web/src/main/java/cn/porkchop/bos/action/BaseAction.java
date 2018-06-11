@@ -1,5 +1,6 @@
 package cn.porkchop.bos.action;
 
+import cn.porkchop.json.DateToJsonValueProcessor;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import net.sf.json.JSONArray;
@@ -10,6 +11,7 @@ import org.apache.struts2.ServletActionContext;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
@@ -48,6 +50,7 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
     public String toJson(Object object, String[] excludes) {
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.setExcludes(excludes);
+        jsonConfig.registerJsonValueProcessor(Date.class, new DateToJsonValueProcessor("yyyy-MM-dd"));
         return JSONObject.fromObject(object, jsonConfig).toString();
     }
 

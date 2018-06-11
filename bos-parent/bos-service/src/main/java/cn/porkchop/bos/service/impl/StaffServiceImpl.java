@@ -22,6 +22,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public void add(Staff model) {
+        model.setDeltag("0");
         staffDao.save(model);
     }
 

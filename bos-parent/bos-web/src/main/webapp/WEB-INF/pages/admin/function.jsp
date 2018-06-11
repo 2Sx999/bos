@@ -40,6 +40,7 @@
 				}           
 			],
 			pagination:true,
+			fit:true,
 			fitColumns:true,
 			url : '${pageContext.request.contextPath}/FunctionAction_findAllByPagination.action',
 			columns : [[
